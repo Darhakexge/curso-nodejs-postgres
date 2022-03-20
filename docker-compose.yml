@@ -1,21 +1,43 @@
-version: '3.3'
+version: "3.8"
 
 services:
   postgres:
-    image: postgres:14
+    image: postgres:latest
+    restart: always
     environment:
-      - POSTGRES_DB=my_store
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=toor
+      POSTGRES_DB: my_store
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: toor
     ports:
       - 5432:5432
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - /postgres_data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
+    restart: always
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
-      - PGADMIN_DEFAULT_PASSWORD=toor
+      PGADMIN_DEFAULT_EMAIL: admin@mail.com
+      PGADMIN_DEFAULT_PASSWORD: toor
     ports:
       - 5050:80
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: my_store
+
+  phpmyadmin:
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
