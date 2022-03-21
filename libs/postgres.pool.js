@@ -11,8 +11,10 @@ if (isProd) {
   options.connectionString = `postgres://${USER}:${PASSWORD}@${db_host}:${db_port}/${db_database}`;
 }
 
-options.ssl = {
-  rejectUnauthorized: !isProd
+options.dialectOptions = {
+  ssl: {
+    rejectUnauthorized: false
+  }
 };
 
 const pool = new Pool(options);
