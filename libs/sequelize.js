@@ -12,8 +12,10 @@ const options = {
 
 if (isProd) {
   URI = dbUrl;
-  options.ssl = {
-    rejectUnauthorized: false
+  options.dialectOptions = {
+    ssl: {
+      rejectUnauthorized: false
+    }
   };
 } else {
   URI = `postgres://${USER}:${PASSWORD}@${db_host}:${db_port}/${db_database}`;

@@ -3,16 +3,18 @@ const { db_host, db_port, db_user, db_password, db_database, isProd, dbUrl } = r
 
 const USER = encodeURIComponent(db_user);
 const PASSWORD = encodeURIComponent(db_password);
-let URI = "";
+const options = {};
 
 if (isProd) {
-  URI = dbUrl;
+  options.connectionString = dbUrl;
 } else {
-  URI = `postgres://${USER}:${PASSWORD}@${db_host}:${db_port}/${db_database}`;
+  options.connectionString = `postgres://${USER}:${PASSWORD}@${db_host}:${db_port}/${db_database}`;
 }
 
-const pool = new Pool({
-  connectionString: URI
-});
+options.ssl = {
+  rejectUnauthorized: !isProd
+};
+
+const pool = new Pool(options);
 
 module.exports = pool;
