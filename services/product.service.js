@@ -1,4 +1,5 @@
 const boom = require('@hapi/boom');
+const { Op } = require("sequelize");
 const { models } = require("../libs/sequelize");
 
 
@@ -10,9 +11,12 @@ class ProductsService {
     return newProduct;
   }
 
-  async find() {
+  async find({ limit = 10, offset = 0, ...conditions }) {
     const products = await models.Product.findAll({
-      include: ["category"]
+      include: ["category"],
+      offset,
+      limit,
+      where: conditions
     });
 
     return products;
