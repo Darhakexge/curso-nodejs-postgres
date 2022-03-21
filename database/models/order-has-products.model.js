@@ -46,11 +46,8 @@ const OrderHasProductSchema = {
 };
 
 class OrderHasProduct extends Model {
-  static associate(/* models */) {
-    // this.hasOne(models.Customer, {
-    //   as: "customer",
-    //   foreignKey: "userId"
-    // });
+  static associate() {
+    //
   }
 
   static config(sequelize) {
